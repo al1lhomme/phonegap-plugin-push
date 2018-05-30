@@ -154,6 +154,9 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
    */
   private String localizeKey(Context context, String key, String value) {
     if (key.equals(TITLE) || key.equals(MESSAGE) || key.equals(SUMMARY_TEXT)) {
+	  String packageName = context.getPackageName();
+	  Resources resources = context.getResources();
+	  int resourceId = 0;
       try {
         JSONObject localeObject = new JSONObject(value);
 
@@ -168,10 +171,8 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
           }
         }
 
-        String packageName = context.getPackageName();
-        Resources resources = context.getResources();
 
-        int resourceId = resources.getIdentifier(localeKey, "string", packageName);
+        resourceId = resources.getIdentifier(localeKey, "string", packageName);
 
         if (resourceId != 0) {
           return resources.getString(resourceId, localeFormatData.toArray());
@@ -182,6 +183,13 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
         }
       } catch (JSONException e) {
         Log.d(LOG_TAG, "no locale found for key = " + key + ", error " + e.getMessage());
+		resourceId = resources.getIdentifier(value, "string", packageName);
+
+        if (resourceId != 0) {
+          return resources.getString(resourceId, new ArrayList<String>());
+        } else {
+          return value;
+        }
 
         return value;
       }
