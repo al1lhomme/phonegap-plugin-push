@@ -79,6 +79,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     if (message.getNotification() != null) {
       extras.putString(TITLE, message.getNotification().getTitle());
       extras.putString(MESSAGE, message.getNotification().getBody());
+	  extras.putString(LOC_KEY, message.getNotification().getBody());
       extras.putString(SOUND, message.getNotification().getSound());
       extras.putString(ICON, message.getNotification().getIcon());
       extras.putString(COLOR, message.getNotification().getColor());
