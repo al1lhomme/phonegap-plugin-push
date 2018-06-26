@@ -129,17 +129,18 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
         extras.putBoolean(COLDSTART, PushPlugin.isActive());
 		if ((message.getNotification().getBody() != null && message.getNotification().getBody().equals("HoldCall.90"))
 			|| (message.getNotification().getTitle() != null && message.getNotification().getTitle().equals("HoldCall.90"))) {
-		  try {
-				long now = (new Date()).getTime();
-				File repertoire = new File(getApplicationContext().getFilesDir().getAbsolutePath());
-				File file  = new File(repertoire, "HoldCall90.txt");
-				FileWriter writer = new FileWriter(file);
-				writer.append(Long.toString(now));
-				writer.flush();
-				writer.close();
-			} catch (IOException e) {
-				Log.d(LOG_TAG, e.getMessage());
-			}
+			  try {
+					long now = (new Date()).getTime();						
+					File repertoire = new File(getApplicationContext().getFilesDir().getAbsolutePath());
+					File file  = new File(repertoire, "HoldCall90.txt");
+					FileWriter writer = new FileWriter(file);
+					writer.append(Long.toString(now));
+					writer.flush();
+					writer.close();
+				} catch (IOException e) {
+					Log.d(LOG_TAG, e.getMessage());
+				}
+	
 		}
         showNotificationIfPossible(applicationContext, extras);
       }
@@ -378,10 +379,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
   }
 
   public void createNotification(Context context, Bundle extras) {
-	
-	extras.
-	  
-    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+	NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     String appName = getAppName(this);
     String packageName = context.getPackageName();
     Resources resources = context.getResources();
