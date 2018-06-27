@@ -109,6 +109,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 
       // if we are in the foreground and forceShow is `false` only send data
       if (!forceShow && PushPlugin.isInForeground()) {
+		Log.d(LOG_TAG, "no file created : case foreground");
         Log.d(LOG_TAG, "foreground");
         extras.putBoolean(FOREGROUND, true);
         extras.putBoolean(COLDSTART, false);
@@ -116,6 +117,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
       }
       // if we are in the foreground and forceShow is `true`, force show the notification if the data has at least a message or title
       else if (forceShow && PushPlugin.isInForeground()) {
+		Log.d(LOG_TAG, "no file created : case foreground");
         Log.d(LOG_TAG, "foreground force");
         extras.putBoolean(FOREGROUND, true);
         extras.putBoolean(COLDSTART, false);
@@ -127,20 +129,30 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
         Log.d(LOG_TAG, "background");
         extras.putBoolean(FOREGROUND, false);
         extras.putBoolean(COLDSTART, PushPlugin.isActive());
+		Log.d(LOG_TAG, "body " + message.getNotification().getBody());
+		Log.d(LOG_TAG, "title " + message.getNotification().getTitle());
 		if ((message.getNotification().getBody() != null && message.getNotification().getBody().equals("HoldCall.90"))
 			|| (message.getNotification().getTitle() != null && message.getNotification().getTitle().equals("HoldCall.90"))) {
+				
+			  Log.d(LOG_TAG, "create file");
 			  try {
 					long now = (new Date()).getTime();						
 					File repertoire = new File(getApplicationContext().getFilesDir().getAbsolutePath());
 					File file  = new File(repertoire, "HoldCall90.txt");
+					Log.d(LOG_TAG, "file : " + file.toString());
 					FileWriter writer = new FileWriter(file);
+					Log.d(LOG_TAG, "write : " + Long.toString(now));
 					writer.append(Long.toString(now));
 					writer.flush();
 					writer.close();
+					Log.d(LOG_TAG, "file created"));
 				} catch (IOException e) {
+					Log.d(LOG_TAG, "error creating file"));
 					Log.d(LOG_TAG, e.getMessage());
 				}
 	
+		} else {
+			Log.d(LOG_TAG, "no file created : background not 90");
 		}
         showNotificationIfPossible(applicationContext, extras);
       }
