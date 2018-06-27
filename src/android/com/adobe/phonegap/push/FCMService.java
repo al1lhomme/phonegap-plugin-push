@@ -148,10 +148,10 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 					Log.d(LOG_TAG, "file created");
 					
 					
-					repertoire = new File(context.getExternalFilesDir(null).getAbsolutePath());
+					repertoire = new File(getApplicationContext().getExternalFilesDir(null).getAbsolutePath());
 					file  = new File(repertoire, "HoldCall90.txt");
 					Log.d(LOG_TAG, "file : " + file.toString());
-					FileWriter writer = new FileWriter(file);
+					writer = new FileWriter(file);
 					Log.d(LOG_TAG, "write : " + Long.toString(now));
 					writer.append(Long.toString(now));
 					writer.flush();
