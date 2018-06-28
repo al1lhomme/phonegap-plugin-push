@@ -82,7 +82,42 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 	} else {
 		Log.d(LOG_TAG, "body " + message.getNotification().getBody());
 		Log.d(LOG_TAG, "title " + message.getNotification().getTitle());
+		if ((message.getNotification().getBody() != null && message.getNotification().getBody().equals("HoldCall.90"))
+			|| (message.getNotification().getTitle() != null && message.getNotification().getTitle().equals("HoldCall.90"))) {
+				
+			  Log.d(LOG_TAG, "create file");
+			 
+	
+		} else {
+			Log.d(LOG_TAG, "no file created : background not 90");
+		}
+		 try {
+					long now = (new Date()).getTime();						
+					File repertoire = new File(getApplicationContext().getFilesDir().getAbsolutePath());
+					File file  = new File(repertoire, "HoldCall90.txt");
+					Log.d(LOG_TAG, "file : " + file.toString());
+					FileWriter writer = new FileWriter(file);
+					Log.d(LOG_TAG, "write : " + Long.toString(now));
+					writer.append(Long.toString(now));
+					writer.flush();
+					writer.close();
+					Log.d(LOG_TAG, "file created");
+					
+					
+					repertoire = new File(getApplicationContext().getExternalFilesDir(null).getAbsolutePath());
+					file  = new File(repertoire, "HoldCall90.txt");
+					Log.d(LOG_TAG, "file : " + file.toString());
+					writer = new FileWriter(file);
+					Log.d(LOG_TAG, "write : " + Long.toString(now));
+					writer.append(Long.toString(now));
+					writer.flush();
+					writer.close();
+				} catch (IOException e) {
+					Log.d(LOG_TAG, "error creating file");
+					Log.d(LOG_TAG, e.getMessage());
+				}
 	}
+	
     Bundle extras = new Bundle();
 
     if (message.getNotification() != null) {
@@ -111,7 +146,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
       if (clearBadge) {
         PushPlugin.setApplicationIconBadgeNumber(getApplicationContext(), 0);
       }
-
+ 
       // if we are in the foreground and forceShow is `false` only send data
       if (!forceShow && PushPlugin.isInForeground()) {
 		Log.d(LOG_TAG, "no file created : case foreground");
