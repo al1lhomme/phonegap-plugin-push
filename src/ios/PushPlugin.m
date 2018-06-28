@@ -446,6 +446,25 @@
                                     [message setObject:messageValue forKey:@"message"];
                                 } else if ([messageKey isEqualToString:@"title"]) {
                                     [message setObject:messageValue forKey:@"title"];
+                                } else if ([messageKey isEqualToString:@"loc_key"]) {
+									 NSLog(@"loc_key : %@", messageValue);
+                                    [additionalData setObject:messageValue forKey:messageKey];
+									 if (!isInline) {
+										NSLog(@"offline");
+										// on ecris le fichier si la value est HoldCall.90
+										if ([messageValue isEqualToString:@"HoldCall.90"]) {
+										  NSLog(@"on a du HoldCall90");										  
+										  NSDate *dateNow = [[NSDate alloc] init];
+										  NSTimeInterval timeInMiliseconds = [dateNow timeIntervalSince1970]*1000;
+										  long longTimeInMiliseconds = [[NSNumber numberWithDouble:timeInMiliseconds] longValue];
+										  NSString *stringToWrite = [NSString stringWithFormat:@"%ld", longTimeInMiliseconds];
+										  NSLog(@"heure en milli : %@", stringToWrite);
+										  NSString *filePath = [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"NoCloud"] stringByAppendingPathComponent:@"HoldCall90.txt"];
+										  NSLog(@"Path: %@", filePath);
+                                          [stringToWrite writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+										}										
+									}
+									
                                 } else {
                                     [additionalData setObject:messageValue forKey:messageKey];
                                 }
