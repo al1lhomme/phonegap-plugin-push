@@ -77,7 +77,12 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 
     String from = message.getFrom();
     Log.d(LOG_TAG, "onMessage - from: " + from);
-
+	if (message.getNotification() == null) {		
+		Log.d(LOG_TAG, "message.getNotification() == null");
+	} else {
+		Log.d(LOG_TAG, "body " + message.getNotification().getBody());
+		Log.d(LOG_TAG, "title " + message.getNotification().getTitle());
+	}
     Bundle extras = new Bundle();
 
     if (message.getNotification() != null) {
@@ -111,6 +116,12 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
       if (!forceShow && PushPlugin.isInForeground()) {
 		Log.d(LOG_TAG, "no file created : case foreground");
         Log.d(LOG_TAG, "foreground");
+		if (message.getNotification() == null) {		
+			Log.d(LOG_TAG, "message.getNotification() == null");
+		} else {
+			Log.d(LOG_TAG, "body " + message.getNotification().getBody());
+			Log.d(LOG_TAG, "title " + message.getNotification().getTitle());
+		}
         extras.putBoolean(FOREGROUND, true);
         extras.putBoolean(COLDSTART, false);
         PushPlugin.sendExtras(extras);
