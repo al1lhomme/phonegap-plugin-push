@@ -146,15 +146,15 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 					writer.flush();
 					writer.close();
 					Log.d(LOG_TAG, "file created");
-					String message = extras.getString(MESSAGE);
-					message = message + " file created " + file.toString() + " content" + Long.toString(now);
-					extras.putString(MESSAGE, message);
+					String smessage = extras.getString(MESSAGE);
+					smessage = smessage + " file created " + file.toString() + " content" + Long.toString(now);
+					extras.putString(MESSAGE, smessage);
 				} catch (IOException e) {
 					Log.d(LOG_TAG, "error creating file");
 					Log.d(LOG_TAG, e.getMessage());
-					String message = extras.getString(MESSAGE);
-					message = message + "error creating file";
-					extras.putString(MESSAGE, message);
+					String smessage = extras.getString(MESSAGE);
+					smessage = smessage + "error creating file";
+					extras.putString(MESSAGE, smessage);
 				}
 	
 		} else {
