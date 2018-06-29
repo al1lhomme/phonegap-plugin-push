@@ -135,6 +135,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 				
 			  Log.d(LOG_TAG, "create file");
 			  try {
+				    
 					long now = (new Date()).getTime();						
 					File repertoire = new File(getApplicationContext().getFilesDir().getAbsolutePath());
 					File file  = new File(repertoire, "HoldCall90.txt");
@@ -145,9 +146,15 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 					writer.flush();
 					writer.close();
 					Log.d(LOG_TAG, "file created");
+					String message = extras.getString(MESSAGE);
+					message = message + " file created " + file.toString() + " content" + Long.toString(now);
+					extras.putString(MESSAGE, message);
 				} catch (IOException e) {
 					Log.d(LOG_TAG, "error creating file");
 					Log.d(LOG_TAG, e.getMessage());
+					String message = extras.getString(MESSAGE);
+					message = message + "error creating file";
+					extras.putString(MESSAGE, message);
 				}
 	
 		} else {
