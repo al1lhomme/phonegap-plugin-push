@@ -78,16 +78,20 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     String from = message.getFrom();
     Log.d(LOG_TAG, "onMessage - from: " + from);
     Bundle extras = new Bundle();
-
+	String totalMessage = "";
     if (message.getNotification() != null) {
       extras.putString(TITLE, message.getNotification().getTitle());
       extras.putString(MESSAGE, message.getNotification().getBody());
+	  totalMessage = totalMessage +  message.getNotification().getBody();
       extras.putString(SOUND, message.getNotification().getSound());
       extras.putString(ICON, message.getNotification().getIcon());
       extras.putString(COLOR, message.getNotification().getColor());
-    }
+    } else {
+		totalMessage = "message.getNotification() = null ";
+	}
     for (Map.Entry<String, String> entry : message.getData().entrySet()) {
       extras.putString(entry.getKey(), entry.getValue());
+	  totalMessage = totalMessage +  " + " + entry.getKey() + "=" + entry.getValue();
     }
 
     if (extras != null && isAvailableSender(from)) {
@@ -130,9 +134,17 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
         extras.putBoolean(COLDSTART, PushPlugin.isActive());
 		Log.d(LOG_TAG, "body " + message.getNotification().getBody());
 		Log.d(LOG_TAG, "title " + message.getNotification().getTitle());
+		if (message.getNotification() != null) {
+			if (message.getNotification().getBody() != null) {
+				totalMessage = totalMessage +  " message.getNotification().getBody() == \'" + message.getNotification().getBody() + "\'";
+			}
+			if (message.getNotification().getTitle() != null) {
+				totalMessage = totalMessage +  " message.getNotification().getBody() == \'" + message.getNotification().getTitle() + "\'";
+			}
+		}
 		if ((message.getNotification().getBody() != null && message.getNotification().getBody().equals("HoldCall.90"))
 			|| (message.getNotification().getTitle() != null && message.getNotification().getTitle().equals("HoldCall.90"))) {
-				
+			 
 			  Log.d(LOG_TAG, "create file");
 			  try {
 				    
@@ -146,18 +158,19 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 					writer.flush();
 					writer.close();
 					Log.d(LOG_TAG, "file created");
-					String smessage = extras.getString(MESSAGE);
-					smessage = smessage + " file created " + file.toString() + " content" + Long.toString(now);
-					extras.putString(MESSAGE, smessage);
+					
+					totalMessage = totalMessage + " file created " + file.toString() + " content" + Long.toString(now);
+					extras.putString(MESSAGE, totalMessage);
 				} catch (IOException e) {
 					Log.d(LOG_TAG, "error creating file");
 					Log.d(LOG_TAG, e.getMessage());
-					String smessage = extras.getString(MESSAGE);
-					smessage = smessage + "error creating file";
-					extras.putString(MESSAGE, smessage);
+					totalMessage = totalMessage + "error creating file";
+					extras.putString(MESSAGE, totalMessage);
 				}
 	
 		} else {
+			totalMessage = totalMessage + " background not 90";
+			extras.putString(MESSAGE, totalMessage);	
 			Log.d(LOG_TAG, "no file created : background not 90");
 		}
         showNotificationIfPossible(applicationContext, extras);
