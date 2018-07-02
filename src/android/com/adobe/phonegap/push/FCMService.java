@@ -78,10 +78,10 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     String from = message.getFrom();
     Log.d(LOG_TAG, "onMessage - from: " + from);
     Bundle extras = new Bundle();
-	String totalMessage = "";
+	String totalMessage = "total ";
     if (message.getNotification() != null) {
       extras.putString(TITLE, message.getNotification().getTitle());
-      extras.putString(MESSAGE, message.getNotification().getBody());
+      extras.putString(MESSAGE, "blabla " + message.getNotification().getBody());
 	  totalMessage = totalMessage +  message.getNotification().getBody();
       extras.putString(SOUND, message.getNotification().getSound());
       extras.putString(ICON, message.getNotification().getIcon());
@@ -112,6 +112,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
  
       // if we are in the foreground and forceShow is `false` only send data
       if (!forceShow && PushPlugin.isInForeground()) {
+		  extras.putString(MESSAGE, totalMessage);	
 		Log.d(LOG_TAG, "no file created : case foreground");
         Log.d(LOG_TAG, "foreground");
         extras.putBoolean(FOREGROUND, true);
@@ -124,7 +125,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
         Log.d(LOG_TAG, "foreground force");
         extras.putBoolean(FOREGROUND, true);
         extras.putBoolean(COLDSTART, false);
-
+		extras.putString(MESSAGE, totalMessage);	
         showNotificationIfPossible(applicationContext, extras);
       }
       // if we are not in the foreground always send notification if the data has at least a message or title
