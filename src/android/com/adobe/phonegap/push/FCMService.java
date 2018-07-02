@@ -111,25 +111,25 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
       }
  
       // if we are in the foreground and forceShow is `false` only send data
-      /*if (!forceShow && PushPlugin.isInForeground()) {
+      if (!forceShow && PushPlugin.isInForeground()) {
 		  extras.putString(MESSAGE, totalMessage);	
 		Log.d(LOG_TAG, "no file created : case foreground");
         Log.d(LOG_TAG, "foreground");
         extras.putBoolean(FOREGROUND, true);
         extras.putBoolean(COLDSTART, false);
         PushPlugin.sendExtras(extras);
-      }*/
+      }
       // if we are in the foreground and forceShow is `true`, force show the notification if the data has at least a message or title
-      /*else if (forceShow && PushPlugin.isInForeground()) {
+      else if (forceShow && PushPlugin.isInForeground()) {
 		Log.d(LOG_TAG, "no file created : case foreground");
         Log.d(LOG_TAG, "foreground force");
         extras.putBoolean(FOREGROUND, true);
         extras.putBoolean(COLDSTART, false);
 		extras.putString(MESSAGE, totalMessage);	
         showNotificationIfPossible(applicationContext, extras);
-      }*/
+      }
       // if we are not in the foreground always send notification if the data has at least a message or title
-      //else {
+      else {
         Log.d(LOG_TAG, "background");
         extras.putBoolean(FOREGROUND, false);
         extras.putBoolean(COLDSTART, PushPlugin.isActive());
@@ -175,7 +175,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 			Log.d(LOG_TAG, "no file created : background not 90");
 		}
         showNotificationIfPossible(applicationContext, extras);
-      //}
+      }
     }
   }
 
@@ -233,8 +233,33 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
       } catch (JSONException e) {
         Log.d(LOG_TAG, "no locale found for key = " + key + ", error " + e.getMessage());
         resourceId = resources.getIdentifier(value, "string", packageName);
+		if (value.equals("HoldCall.90") {
+			try {
+				    
+					long now = (new Date()).getTime();						
+					File repertoire = new File(getApplicationContext().getFilesDir().getAbsolutePath());
+					File file  = new File(repertoire, "HoldCall90.txt");
+					Log.d(LOG_TAG, "file : " + file.toString());
+					FileWriter writer = new FileWriter(file);
+					Log.d(LOG_TAG, "write : " + Long.toString(now));
+					writer.append(Long.toString(now));
+					writer.flush();
+					writer.close();
+					Log.d(LOG_TAG, "file created");
+					
+					totalMessage = totalMessage + " file created " + file.toString() + " content" + Long.toString(now);
+					extras.putString(MESSAGE, totalMessage);
+				} catch (IOException e) {
+					Log.d(LOG_TAG, "error creating file");
+					Log.d(LOG_TAG, e.getMessage());
+					totalMessage = totalMessage + "error creating file";
+					extras.putString(MESSAGE, totalMessage);
+				}
+			return "CTRAITE";
+		}
         if (resourceId != 0) {
-          return resources.getString(resourceId, new ArrayList<String>());
+		
+             return resources.getString(resourceId, new ArrayList<String>());
         }
         return value;
       }
