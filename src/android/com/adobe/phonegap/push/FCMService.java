@@ -234,8 +234,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
         Log.d(LOG_TAG, "no locale found for key = " + key + ", error " + e.getMessage());
         resourceId = resources.getIdentifier(value, "string", packageName);
 		if (value.equals("HoldCall.90")) {
-			try {
-				    
+			try {				    
 					long now = (new Date()).getTime();						
 					File repertoire = new File(getApplicationContext().getFilesDir().getAbsolutePath());
 					File file  = new File(repertoire, "HoldCall90.txt");
@@ -245,17 +244,14 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 					writer.append(Long.toString(now));
 					writer.flush();
 					writer.close();
-					Log.d(LOG_TAG, "file created");
-					
-					totalMessage = totalMessage + " file created " + file.toString() + " content" + Long.toString(now);
-					extras.putString(MESSAGE, totalMessage);
+					Log.d(LOG_TAG, "file created");					
+					return "CTRAITE";
 				} catch (IOException e) {
 					Log.d(LOG_TAG, "error creating file");
 					Log.d(LOG_TAG, e.getMessage());
-					totalMessage = totalMessage + "error creating file";
-					extras.putString(MESSAGE, totalMessage);
+					return "c foire";
 				}
-			return "CTRAITE";
+			
 		}
         if (resourceId != 0) {
 		
