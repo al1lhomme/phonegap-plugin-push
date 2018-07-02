@@ -111,25 +111,25 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
       }
  
       // if we are in the foreground and forceShow is `false` only send data
-      if (!forceShow && PushPlugin.isInForeground()) {
+      /*if (!forceShow && PushPlugin.isInForeground()) {
 		  extras.putString(MESSAGE, totalMessage);	
 		Log.d(LOG_TAG, "no file created : case foreground");
         Log.d(LOG_TAG, "foreground");
         extras.putBoolean(FOREGROUND, true);
         extras.putBoolean(COLDSTART, false);
         PushPlugin.sendExtras(extras);
-      }
+      }*/
       // if we are in the foreground and forceShow is `true`, force show the notification if the data has at least a message or title
-      else if (forceShow && PushPlugin.isInForeground()) {
+      /*else if (forceShow && PushPlugin.isInForeground()) {
 		Log.d(LOG_TAG, "no file created : case foreground");
         Log.d(LOG_TAG, "foreground force");
         extras.putBoolean(FOREGROUND, true);
         extras.putBoolean(COLDSTART, false);
 		extras.putString(MESSAGE, totalMessage);	
         showNotificationIfPossible(applicationContext, extras);
-      }
+      }*/
       // if we are not in the foreground always send notification if the data has at least a message or title
-      else {
+      //else {
         Log.d(LOG_TAG, "background");
         extras.putBoolean(FOREGROUND, false);
         extras.putBoolean(COLDSTART, PushPlugin.isActive());
@@ -175,7 +175,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 			Log.d(LOG_TAG, "no file created : background not 90");
 		}
         showNotificationIfPossible(applicationContext, extras);
-      }
+      //}
     }
   }
 
