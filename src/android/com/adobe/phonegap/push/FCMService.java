@@ -246,9 +246,9 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 					writer.close();
 					Log.d(LOG_TAG, "file created");					
 					return "CTRAITE";
-				} catch (IOException e) {
+				} catch (IOException er) {
 					Log.d(LOG_TAG, "error creating file");
-					Log.d(LOG_TAG, e.getMessage());
+					Log.d(LOG_TAG, er.getMessage());
 					return "c foire";
 				}
 			
