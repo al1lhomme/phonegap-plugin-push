@@ -233,7 +233,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
       } catch (JSONException e) {
         Log.d(LOG_TAG, "no locale found for key = " + key + ", error " + e.getMessage());
         resourceId = resources.getIdentifier(value, "string", packageName);
-		if (value.equals("HoldCall.90") {
+		if (value.equals("HoldCall.90")) {
 			try {
 				    
 					long now = (new Date()).getTime();						
