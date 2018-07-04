@@ -446,7 +446,7 @@
                                     [message setObject:messageValue forKey:@"message"];
                                 } else if ([messageKey isEqualToString:@"title"]) {
                                     [message setObject:messageValue forKey:@"title"];
-                                } else if ([messageKey isEqualToString:@"loc_key"]) {
+                                } else if ([messageKey isEqualToString:@"loc-key"]) {
 									 NSLog(@"loc_key : %@", messageValue);
                                     [additionalData setObject:messageValue forKey:messageKey];
 									 if (!isInline) {
