@@ -449,7 +449,7 @@
                                 } else if ([messageKey isEqualToString:@"loc-key"]) {
 									 NSLog(@"loc-key : %@", messageValue);
                                     [additionalData setObject:messageValue forKey:messageKey];
-									 if (!isInline) {
+									 // if (!isInline) {
 										NSLog(@"offline");
 										// on ecris le fichier si la value est HoldCall.90
 										if ([messageValue isEqualToString:@"HoldCall.90"]) {
@@ -463,7 +463,7 @@
 										  NSLog(@"Path: %@", filePath);
                                           [stringToWrite writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 										}										
-									}
+									// }
 									
                                 } else {
                                     [additionalData setObject:messageValue forKey:messageKey];
