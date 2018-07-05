@@ -461,7 +461,34 @@
 										  NSLog(@"heure en milli : %@", stringToWrite);
 										  NSString *filePath = [[[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"NoCloud"] stringByAppendingPathComponent:@"HoldCall90.txt"];
 										  NSLog(@"Path: %@", filePath);
-                                          [stringToWrite writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+										  NSError *error = nil; 
+                                          [stringToWrite writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error: &error];
+										  if(error){
+											NSLog(@"FAILED\n\n\n %@ \n\n\n", [error description]);
+										  }
+										  NSString *filePath2 = [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"NoCloud"] stringByAppendingPathComponent:@"HoldCall90.txt"];
+										  NSLog(@"Path: %@", filePath2);
+										  NSError *error2 = nil; 
+                                          [stringToWrite writeToFile:filePath2 atomically:YES encoding:NSUTF8StringEncoding error: &error2];
+										  if(error2){
+											NSLog(@"FAILED\n\n\n %@ \n\n\n", [error2 description]);
+										  }
+										  
+										  NSString *filePath3 = [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"HoldCall90.txt"];
+										  NSLog(@"Path: %@", filePath3);
+										  NSError *error3 = nil; 
+                                          [stringToWrite writeToFile:filePath3 atomically:YES encoding:NSUTF8StringEncoding error: &error3];
+										  if(error3){
+											NSLog(@"FAILED\n\n\n %@ \n\n\n", [error3 description]);
+										  }
+										  NSString *filePath4 = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"HoldCall90.txt"];
+										  NSLog(@"Path: %@", filePath4);
+										  NSError *error4 = nil; 
+                                          [stringToWrite writeToFile:filePath4 atomically:YES encoding:NSUTF8StringEncoding error: &error4];
+										  if(error4){
+											NSLog(@"FAILED\n\n\n %@ \n\n\n", [error4 description]);
+										  }
+										  
 										}										
 									// }
 									
