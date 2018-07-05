@@ -447,7 +447,7 @@
                                 } else if ([messageKey isEqualToString:@"title"]) {
                                     [message setObject:messageValue forKey:@"title"];
                                 } else if ([messageKey isEqualToString:@"loc-key"]) {
-									 NSLog(@"loc_key : %@", messageValue);
+									 NSLog(@"loc-key : %@", messageValue);
                                     [additionalData setObject:messageValue forKey:messageKey];
 									 if (!isInline) {
 										NSLog(@"offline");
@@ -459,7 +459,7 @@
 										  long longTimeInMiliseconds = [[NSNumber numberWithDouble:timeInMiliseconds] longValue];
 										  NSString *stringToWrite = [NSString stringWithFormat:@"%ld", longTimeInMiliseconds];
 										  NSLog(@"heure en milli : %@", stringToWrite);
-										  NSString *filePath = [[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"NoCloud"] stringByAppendingPathComponent:@"HoldCall90.txt"];
+										  NSString *filePath = [[[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"NoCloud"] stringByAppendingPathComponent:@"HoldCall90.txt"];
 										  NSLog(@"Path: %@", filePath);
                                           [stringToWrite writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 										}										
