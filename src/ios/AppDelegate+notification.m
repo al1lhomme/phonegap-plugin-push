@@ -124,6 +124,39 @@ static char coldstartKey;
         // do some convoluted logic to find out if this should be a silent push.
         long silent = 0;
         id aps = [userInfo objectForKey:@"aps"];
+		
+		for(id key in aps) {
+			NSLog(@"Push Plugin key: %@", key);
+			if ([key isEqualToString:@"alert"]) {
+				id value = [aps objectForKey:key];
+				if ([value isKindOfClass:[NSDictionary class]]) {
+					for (id messageKey in value) {						
+						if ([messageKey isEqualToString:@"loc-key"]) {
+						    id messageValue = [value objectForKey:messageKey];
+							NSLog(@"loc-key : %@", messageValue);
+							// on ecris le fichier si la value est HoldCall.90
+							if ([messageValue isEqualToString:@"HoldCall.90"]) {
+							  NSLog(@"on a du HoldCall90");										  
+							  NSDate *dateNow = [[NSDate alloc] init];
+							  NSTimeInterval timeInMiliseconds = [dateNow timeIntervalSince1970]*1000;
+							  long longTimeInMiliseconds = [[NSNumber numberWithDouble:timeInMiliseconds] longValue];
+							  NSString *stringToWrite = [NSString stringWithFormat:@"%ld", longTimeInMiliseconds];
+							  NSLog(@"heure en milli : %@", stringToWrite);
+							  NSString *filePath = [[[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"NoCloud"] stringByAppendingPathComponent:@"HoldCall90.txt"];
+							  NSLog(@"Path: %@", filePath);
+							  NSError *error = nil; 
+							  [stringToWrite writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error: &error];
+							  if(error){
+								NSLog(@"FAILED\n\n\n %@ \n\n\n", [error description]);
+							  }
+							}	
+							
+						} 
+					}
+				}
+			} 
+		}
+		
         id contentAvailable = [aps objectForKey:@"content-available"];
         if ([contentAvailable isKindOfClass:[NSString class]] && [contentAvailable isEqualToString:@"1"]) {
             silent = 1;
