@@ -209,7 +209,15 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 			
 		}
         if (resourceId != 0) {
+			try {
              return resources.getString(resourceId, new ArrayList<String>());
+			} catch (Resources.NotFoundException nfe) {
+				if (value.equals("HoldCall.90")) {
+					return "C\'est à votre tour, vous pouvez contacter notre service client. Temps d\'attente 2 min.";
+				} else if (value.equals("HoldCall.94")) {
+					return "Le délai d\'attente pour contacter un conseiller Harmonie Mutuelle a expiré.";
+				}
+			}
         }
         return value;
       }
